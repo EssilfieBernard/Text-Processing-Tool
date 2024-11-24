@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+
+<StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.project.textprocessingfx.TextProcessingController"
+           style="-fx-background-color: #f0f2f5;">
+
+   <HBox spacing="0">
+      <!-- Main Content Area -->
+      <VBox spacing="20" HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);">
+         <padding>
+            <Insets top="30" right="40" bottom="30" left="40"/>
+         </padding>
+
+         <!-- Header Section -->
+         <VBox spacing="10">
+            <Label text="Text Processing Tool"
+                   style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #1a73e8;"/>
+            <Text text="Process and transform text using regular expressions"
+                  style="-fx-font-size: 14px; -fx-fill: #5f6368;"/>
+         </VBox>
+
+         <!-- Pattern History Section -->
+         <VBox spacing="8" style="-fx-background-color: #f8f9fa; -fx-background-radius: 8;">
+            <padding>
+               <Insets top="15" right="15" bottom="15" left="15"/>
+            </padding>
+            <Label text="Pattern History"
+                   style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #202124;"/>
+            <ComboBox fx:id="patternHistoryComboBox"
+                      promptText="Select from previous patterns..."
+                      style="-fx-font-size: 13px; -fx-background-radius: 4;"
+                      maxWidth="Infinity"/>
+         </VBox>
+
+         <!-- Input Section -->
+         <VBox spacing="8">
+            <Label text="Input Text"
+                   style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #202124;"/>
+            <TextArea fx:id="inputTextField"
+                      promptText="Enter your text here..."
+                      wrapText="true"
+                      prefRowCount="6"
+                      style="-fx-font-size: 14px; -fx-background-radius: 4; -fx-border-radius: 4; -fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-background-color: white;"/>
+         </VBox>
+
+         <!-- Regex Section -->
+         <HBox spacing="20">
+            <VBox spacing="8" HBox.hgrow="ALWAYS">
+               <Label text="Regular Expression"
+                      style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #202124;"/>
+               <TextField fx:id="regexTextField"
+                          promptText="Enter your regex pattern..."
+                          style="-fx-font-size: 14px; -fx-background-radius: 4; -fx-border-radius: 4; -fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-background-color: white;"/>
+            </VBox>
+            <VBox spacing="8" HBox.hgrow="ALWAYS">
+               <Label text="Replacement Text"
+                      style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #202124;"/>
+               <TextField fx:id="replacementTextField"
+                          promptText="Enter replacement text..."
+                          style="-fx-font-size: 14px; -fx-background-radius: 4; -fx-border-radius: 4; -fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-background-color: white;"/>
+            </VBox>
+         </HBox>
+
+         <!-- Action Buttons -->
+         <HBox spacing="15" alignment="CENTER_LEFT">
+            <Button fx:id="searchButton"
+                    text="Search"
+                    onAction="#handleSearchButton"
+                    style="-fx-font-size: 13px; -fx-background-color: #1a73e8; -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 20; -fx-cursor: hand;"/>
+            <Button fx:id="matchButton"
+                    text="Match"
+                    onAction="#handleMatchButton"
+                    style="-fx-font-size: 13px; -fx-background-color: #34a853; -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 20; -fx-cursor: hand;"/>
+            <Button fx:id="replaceButton"
+                    text="Replace"
+                    onAction="#handleReplaceButton"
+                    style="-fx-font-size: 13px; -fx-background-color: #fbbc05; -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 20; -fx-cursor: hand;"/>
+            <Button fx:id="clearButton"
+                    text="Clear All"
+                    onAction="#handleClearButton"
+                    style="-fx-font-size: 13px; -fx-background-color: #ea4335; -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 20; -fx-cursor: hand;"/>
+         </HBox>
+
+         <!-- Results Section -->
+         <VBox spacing="8" VBox.vgrow="ALWAYS">
+            <Label text="Results"
+                   style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #202124;"/>
+            <TextArea fx:id="resultTextArea"
+                      editable="false"
+                      wrapText="true"
+                      style="-fx-font-size: 14px; -fx-background-radius: 4; -fx-border-radius: 4; -fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-background-color: #fafafa;"/>
+         </VBox>
+      </VBox>
+
+      <!-- History Panel -->
+      <VBox spacing="15" minWidth="320" maxWidth="320"
+            style="-fx-background-color: #f8f9fa; -fx-border-color: #e0e0e0; -fx-border-width: 0 0 0 1;">
+         <padding>
+            <Insets top="30" right="20" bottom="30" left="20"/>
+         </padding>
+
+         <Label text="Operation History"
+                style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #202124;"/>
+
+         <ListView fx:id="historyListView"
+                   VBox.vgrow="ALWAYS"
+                   style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0;">
+            <placeholder>
+               <Label text="No history yet"
+                      style="-fx-text-fill: #5f6368; -fx-font-style: italic;"/>
+            </placeholder>
+         </ListView>
+
+         <Button text="Delete Selected"
+                 onAction="#handleDeleteHistoryEntry"
+                 style="-fx-font-size: 13px; -fx-background-color: #ea4335; -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 20; -fx-cursor: hand;"
+                 maxWidth="Infinity"/>
+      </VBox>
+   </HBox>
+</StackPane>
